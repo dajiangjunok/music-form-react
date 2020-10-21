@@ -1,0 +1,9 @@
+export const CHANGE_SONG_INFO = 'CHANGE_SONG_INFO';
+export const CHANGE_SONG_INDEX = 'CHANGE_SONG_INDEX';
+export const CHANGE_SONG_LIST = 'CHANGE_SONG_LIST';
+export const CHANGE_CURRENT_SONG = 'CHANGE_CURRENT_SONG';
+export const CHANGE_SONG_LYRIC = 'CHANGE_SONG_LYRIC';
+
+export const SHOW_PANEL = 'SHOW_PANEL';
+
+export const SAME_SONG = '歌单已含此歌曲';
