@@ -122,7 +122,7 @@ export const Operator = styled.div`
   display: flex;
   position: relative;
   top: 5px;
-
+     
   .btn {
     width: 25px;
     height: 25px;

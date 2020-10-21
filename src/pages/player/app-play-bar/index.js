@@ -2,7 +2,7 @@ import React, { memo, useRef, useEffect, useState, useCallback } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 
 import { formatMinuteSecond } from '@/utils/format-utils';
-import { changeSongInfoAction, showPanleAction } from '../store/actionCreators'
+import { changeSongInfoAction, showPanleAction, changeSequenceAction, changeSongIndexAction, changeCurrentSongAction, changeLrcAction } from '../store/actionCreators'
 
 import {
   PlaybarWrapper,
@@ -14,18 +14,19 @@ import { NavLink } from 'react-router-dom';
 import { Slider } from 'antd';
 import YJPopup from '../c-cpns/popup';
 
-
 export default memo(function YJPlayer () {
   // props and state
 
   //  redux hooks
   const dispatch = useDispatch();
-  const { currentSong, songInfo, songList, showPanel } = useSelector(state => {
+  const { currentSong, songInfo, songList, showPanel, sequence, songIndex } = useSelector(state => {
     return {
       currentSong: state.getIn(["player", "currentSong"]),
       songInfo: state.getIn(["player", "songInfo"]),
       songList: state.getIn(["player", "songList"]),
-      showPanel: state.getIn(["player", "showPanel"])
+      showPanel: state.getIn(["player", "showPanel"]),
+      sequence: state.getIn(["player", "sequence"]),
+      songIndex: state.getIn(["player", "songIndex"])
     }
   }, shallowEqual);
   // 渲染数据
@@ -65,6 +66,13 @@ export default memo(function YJPlayer () {
     const flag = !showPanel
     dispatch(showPanleAction(flag))
   }
+  const changeSequence = () => {
+    const currentSequence = sequence;
+    if (currentSequence === 0) dispatch(changeSequenceAction(1))
+    if (currentSequence === 1) dispatch(changeSequenceAction(2))
+    if (currentSequence === 2) dispatch(changeSequenceAction(0))
+  }
+
   const play = useCallback(() => {
     audioRef.current.play();
     setIsPlaying(true);
@@ -85,6 +93,57 @@ export default memo(function YJPlayer () {
     }
   }, [isPlaying, play, pause]);
 
+  const preMusic = (sequence) => {
+    if (sequence === 0 || sequence === 2) {
+      if (songIndex !== 0) {
+        const currentSong = songList[songIndex - 1]
+        dispatch(changeSongIndexAction(songIndex - 1));
+        dispatch(changeCurrentSongAction(currentSong));
+        dispatch(changeLrcAction(currentSong.id));
+      } else {
+        const currentSong = songList[songList.length - 1]
+        dispatch(changeSongIndexAction(songList.length - 1));
+        dispatch(changeCurrentSongAction(currentSong));
+        dispatch(changeLrcAction(currentSong.id));
+      }
+
+    } else if (sequence === 1) {
+      let index = parseInt(Math.random(0, 1) * (songList.length));
+      while (index === songIndex) {
+        index = parseInt(Math.random(0, 1) * (songList.length));
+      }
+      const currentSong = songList[index]
+      dispatch(changeSongIndexAction(index));
+      dispatch(changeCurrentSongAction(currentSong));
+      dispatch(changeLrcAction(currentSong.id));
+    }
+  }
+
+  const nextMusic = (sequence) => {
+    if (sequence === 0 || sequence === 2) {
+      if (songIndex !== (songList.length - 1)) {
+        const currentSong = songList[songIndex + 1]
+        dispatch(changeSongIndexAction(songIndex + 1));
+        dispatch(changeCurrentSongAction(currentSong));
+        dispatch(changeLrcAction(currentSong.id));
+      } else {
+        const currentSong = songList[0]
+        dispatch(changeSongIndexAction(0));
+        dispatch(changeCurrentSongAction(currentSong));
+        dispatch(changeLrcAction(currentSong.id));
+      }
+
+    } else if (sequence === 1) {
+      let index = parseInt(Math.random(0, 1) * (songList.length));
+      while (index === songIndex) {
+        index = parseInt(Math.random(0, 1) * (songList.length));
+      }
+      const currentSong = songList[index]
+      dispatch(changeSongIndexAction(index));
+      dispatch(changeCurrentSongAction(currentSong));
+      dispatch(changeLrcAction(currentSong.id));
+    }
+  }
 
   const timeUpdate = (e) => {
     const currentTimeNow = parseInt(e.target.currentTime * 1000) / 1000;
@@ -114,9 +173,9 @@ export default memo(function YJPlayer () {
     <PlaybarWrapper className="sprite_playbar" >
       <div className="content wrap-v2">
         <Control isPlaying={isPlaying}>
-          <button className="sprite_playbar btn prev"></button>
+          <button className="sprite_playbar btn prev" onClick={e => preMusic(sequence)}></button>
           <button className="sprite_playbar btn play" onClick={e => playMusic()} ></button>
-          <button className="sprite_playbar btn next"></button>
+          <button className="sprite_playbar btn next" onClick={e => nextMusic(sequence)}></button>
         </Control>
         <PlayInfo>
           <div className="image">
@@ -139,14 +198,14 @@ export default memo(function YJPlayer () {
             </div>
           </div>
         </PlayInfo>
-        <Operator  >
+        <Operator sequence={sequence} >
           <div className="left">
             <button className="sprite_playbar btn favor"></button>
             <button className="sprite_playbar btn share"></button>
           </div>
           <div className="right sprite_playbar">
             <button className="sprite_playbar btn volume"></button>
-            <button className="sprite_playbar btn loop"></button>
+            <button className="sprite_playbar btn loop" onClick={e => changeSequence()}></button>
             <button className="sprite_playbar btn playlist" onClick={showPopup}>
               {songListNum}
             </button>

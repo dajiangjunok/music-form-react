@@ -15,13 +15,13 @@ export const changeSongListAction = (List) => ({
 
 
 // 改变歌曲播放列表索引
-const changeSongIndexAction = (index) => ({
+export const changeSongIndexAction = (index) => ({
   type: actionType.CHANGE_SONG_INDEX,
   songIndex: index
 });
 
 // 改变当前歌曲
-const changeCurrentSongAction = (song) => ({
+export const changeCurrentSongAction = (song) => ({
   type: actionType.CHANGE_CURRENT_SONG,
   currentSong: song
 });
@@ -31,6 +31,14 @@ const changeSongLyricAction = (lrc) => {
     type: actionType.CHANGE_SONG_LYRIC,
     lyric: lrc.lyric
   }
+}
+// 改变播放顺序
+const changeSequenceIndexAction = (num) => {
+  return {
+    type: actionType.CHANGE_SEQUENCE,
+    sequence: num
+  }
+
 }
 
 // 1.获取歌曲详情列表
@@ -42,9 +50,7 @@ export const changeSongDetailAction = (ids) => {
       const currentSong = songList[songIndex];
       dispatch(changeSongIndexAction(songIndex));
       dispatch(changeCurrentSongAction(currentSong))
-      getSongLyric(ids).then(res => {
-        dispatch(changeSongLyricAction(res.lrc))
-      })
+      dispatch(changeLrcAction(ids))
 
     } else {
       getSongDetail(ids).then(res => {
@@ -55,10 +61,7 @@ export const changeSongDetailAction = (ids) => {
         dispatch(changeSongIndexAction(newSongList.length - 1));
         dispatch(changeCurrentSongAction(song));
       })
-      getSongLyric(ids).then(res => {
-        dispatch(changeSongLyricAction(res.lrc))
-      })
-
+      dispatch(changeLrcAction(ids))
     }
   }
 }
@@ -95,3 +98,19 @@ export const showPanleAction = (flag) => ({
   type: actionType.SHOW_PANEL,
   showPanel: flag
 })
+
+// 5.控制歌曲播放的顺序 1是随机播放  2是单曲循环   默认是顺序播放
+export const changeSequenceAction = (num) => {
+  return dispatch => {
+    dispatch(changeSequenceIndexAction(num))
+  }
+}
+
+// 6.更改歌词
+export const changeLrcAction = (id) => {
+  return dispatch => {
+    getSongLyric(id).then(res => {
+      dispatch(changeSongLyricAction(res.lrc))
+    })
+  }
+}

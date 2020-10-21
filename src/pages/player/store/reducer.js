@@ -8,7 +8,8 @@ const initailState = Map({
   songIndex: 0,
   currentSong: {},
   lyric: "",
-  showPanel: false
+  showPanel: false,
+  sequence: 0
 })
 
 export default (state = initailState, action) => {
@@ -25,6 +26,8 @@ export default (state = initailState, action) => {
       return state.set("lyric", action.lyric);
     case actionType.SHOW_PANEL:
       return state.set("showPanel", action.showPanel);
+    case actionType.CHANGE_SEQUENCE:
+      return state.set("sequence", action.sequence);
     default:
       return state;
   }
