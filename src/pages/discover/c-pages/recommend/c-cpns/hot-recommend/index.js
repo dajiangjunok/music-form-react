@@ -4,18 +4,24 @@ import YJThemeHeaderRCM from '@/components/theme-header-rcm';
 import YJThemeCover from '@/components/theme-cover'
 
 import { RecommendWrapper } from './style';
-import { getHotRecommendsAction } from '../../store/actionCreators'
+import { getHotRecommendsAction, getCoverMusicAction } from '../../store/actionCreators'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
 export default memo(function YJHotRecommend () {
   const dispatch = useDispatch()
   const state = useSelector(state => ({
-    hotRecommends: state.getIn(['recommend', 'hotRecommends'])
+    hotRecommends: state.getIn(['recommend', 'hotRecommends']),
+    cRankings: state.getIn(['recommend', 'cRankings'])
   }), shallowEqual)
 
   useEffect(() => {
     dispatch(getHotRecommendsAction(8))
   }, [dispatch])
+
+  // otherHandle
+  const hotRecommendsHandle = (info) => {
+    dispatch(getCoverMusicAction(info.id))
+  }
 
   return (
     <RecommendWrapper>
@@ -25,9 +31,9 @@ export default memo(function YJHotRecommend () {
       />
       <div className="recommend-list">
         {
-          state.hotRecommends.map((item, index) => {
+          state.hotRecommends && state.hotRecommends.map((item, index) => {
             return (
-              <YJThemeCover info={item} key={item.id} />
+              <YJThemeCover info={item} key={item.id} hotRecommendsHandle={hotRecommendsHandle} />
             )
           })
         }

@@ -8,6 +8,20 @@ export const AlbumWrapper = styled.div`
     overflow: hidden;
     margin-top: 15px;
 
+    .icon-bofang{
+      position:absolute;
+      left:45%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      color:rgba(255,255,255,0.6); 
+      font-size:30px;
+      cursor: pointer;
+
+      &:hover{
+        color:rgba(255,255,255,0.9); 
+      }
+    }
+
     img {
       width: ${props => props.size};
       height: ${props => props.size};

@@ -17,6 +17,7 @@ export default memo(function YJAlbumCover (props) {
       <div className="album-image">
         <img src={getSizeImage(info.picUrl, 150)} alt="" />
         <a href="/abc" className="cover sprite_covor">{info.name}</a>
+        <i className="iconfont icon-bofang"></i>
       </div>
       <div className="album-info">
         <div className="name">{info.name}</div>

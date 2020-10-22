@@ -32,6 +32,7 @@ export const ThemeCoverWrapper = styled.div`
         background-position: 0 -537px;
         color: #ccc;
         height: 27px;
+        cursor: pointer;
 
         .erji {
           margin-right: 5px;

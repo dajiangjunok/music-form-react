@@ -39,3 +39,23 @@ export function getTopRankingMusicList (id) {
   })
 }
 
+export function getTopArtists (limit,offset=0) {
+  return request({
+    url: "/top/artists",
+    params: {
+      limit,
+      offset
+    }
+  })
+}
+
+export function getHotAnthors (limit) {
+  return request({
+    url: "/dj/toplist/popular",
+    params: {
+      limit
+    }
+  })
+}
+
+

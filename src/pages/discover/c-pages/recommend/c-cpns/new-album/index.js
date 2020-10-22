@@ -32,11 +32,11 @@ export default memo(function YJNewAlbum () {
           <Carousel ref={carouselRef} dots={false}>
             {
               [0, 1, 2, 3].map((item, index) => {
-                const currentAlbum = state.newAlbums.slice(index * 5, (index + 1) * 5)
+                const currentAlbum = state.newAlbums && state.newAlbums.slice(index * 5, (index + 1) * 5)
                 return (
                   <div key={item} className="page">
                     {
-                      currentAlbum.map((iten, indey) => {
+                      currentAlbum && currentAlbum.map((iten, indey) => {
                         return <YJAlbumCover key={iten.id} info={iten} />
                       })
                     }

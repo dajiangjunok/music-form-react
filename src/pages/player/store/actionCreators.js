@@ -29,7 +29,7 @@ export const changeCurrentSongAction = (song) => ({
 const changeSongLyricAction = (lrc) => {
   return {
     type: actionType.CHANGE_SONG_LYRIC,
-    lyric: lrc.lyric
+    lyric: lrc?lrc.lyric: ''
   }
 }
 // 改变播放顺序

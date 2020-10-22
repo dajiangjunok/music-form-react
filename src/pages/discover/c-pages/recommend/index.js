@@ -1,16 +1,19 @@
 import React, { memo } from 'react';
 
 import { RecommendWrapper, Content, RecommendLeft, RecommendRight } from './style';
-import TopBanners from './c-cpns/top-banners'
-import YJHotRecommend from './c-cpns/hot-recommend'
-import YJNewAlbum from './c-cpns/new-album'
-import YJRanking from './c-cpns/ranking-recommend'
+import YJTopBanners from './c-cpns/top-banners';
+import YJHotRecommend from './c-cpns/hot-recommend';
+import YJNewAlbum from './c-cpns/new-album';
+import YJRanking from './c-cpns/ranking-recommend';
+import YJUserLogin from './c-cpns/user-login';
+import YJMusicActiors from './c-cpns/music-actors';
+import YJMusicAnchor from './c-cpns/music-anchor';
 
-function YJRecommend (props) {
+function YJRecommend(props) {
 
   return (
     <RecommendWrapper>
-      <TopBanners />
+      <YJTopBanners />
       <Content className="wrap-v2">
         <RecommendLeft>
           <YJHotRecommend />
@@ -18,7 +21,9 @@ function YJRecommend (props) {
           <YJRanking />
         </RecommendLeft>
         <RecommendRight>
-
+          <YJUserLogin />
+          <YJMusicActiors />
+          <YJMusicAnchor />
         </RecommendRight>
       </Content>
     </RecommendWrapper>

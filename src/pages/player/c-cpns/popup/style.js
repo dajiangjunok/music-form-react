@@ -93,6 +93,9 @@ export const PopupLeft = styled.div`
         position:relative;
         flex:6;
         padding-left:30px;
+        overflow:hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
 
         .play{
             display:block;  

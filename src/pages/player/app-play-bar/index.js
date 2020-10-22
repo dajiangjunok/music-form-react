@@ -61,6 +61,13 @@ export default memo(function YJPlayer () {
     }
   }, [currentSong])
 
+  useEffect(() => {
+    if(Object.keys(currentSong).length === 0 && songList.length!==0 ) {
+      dispatch(changeCurrentSongAction(songList[0]))
+      dispatch(changeLrcAction(songList[0].id))
+    }
+  }, [songList,currentSong,dispatch])
+
   // 其他业务
   const showPopup = () => {
     const flag = !showPanel
@@ -154,6 +161,33 @@ export default memo(function YJPlayer () {
     }
   }
 
+  const timeEnd = (e)=>{
+    if (sequence === 0 ){
+      if (songIndex !== (songList.length - 1)) {
+        const currentSong = songList[songIndex + 1]
+        dispatch(changeSongIndexAction(songIndex + 1));
+        dispatch(changeCurrentSongAction(currentSong));
+        dispatch(changeLrcAction(currentSong.id));
+      } else {
+        const currentSong = songList[0]
+        dispatch(changeSongIndexAction(0));
+        dispatch(changeCurrentSongAction(currentSong));
+        dispatch(changeLrcAction(currentSong.id));
+      }
+    }else if(sequence === 2){
+      play()
+    }else if(sequence === 1){
+      let index = parseInt(Math.random(0, 1) * (songList.length));
+      while (index === songIndex) {
+        index = parseInt(Math.random(0, 1) * (songList.length));
+      }
+      const currentSong = songList[index]
+      dispatch(changeSongIndexAction(index));
+      dispatch(changeCurrentSongAction(currentSong));
+      dispatch(changeLrcAction(currentSong.id));
+    }
+  }
+
   const sliderChange = useCallback((progress) => {
     setIsChanging(true);
     setProgress(progress);
@@ -213,7 +247,7 @@ export default memo(function YJPlayer () {
         </Operator>
       </div>
       <audio src={songInfo && songInfo[0] && songInfo[0].url}
-        ref={audioRef} onTimeUpdate={timeUpdate} />
+        ref={audioRef} onTimeUpdate={timeUpdate} onEnded={timeEnd} />
       {showPanel && <YJPopup showPopup={showPopup} currentTime={currentTime} />}
     </PlaybarWrapper>
   )

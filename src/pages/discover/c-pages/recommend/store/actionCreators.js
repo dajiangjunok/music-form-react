@@ -4,8 +4,16 @@ import {
   getHotRecommend,
   getNewAlbum,
   getTopRankings,
-  getTopRankingMusicList
-} from "@/services/recommend"
+  getTopRankingMusicList,
+  getTopArtists,
+  getHotAnthors
+} from "@/services/recommend";
+
+import { changeSongListAction } from '@/pages/player/store/actionCreators';
+
+import {
+  getSongDetail
+} from "@/services/player";
 
 const changeTopBannerAction = res => ({
   type: actionType.CAHNGE_TOP_BANNERS,
@@ -24,7 +32,7 @@ const changeNewAlbums = res => ({
 
 const changeTopRankings = res => ({
   type: actionType.CHANGE_RANKINGS,
-  topRankings: res.list.slice(0, 3)
+  topRankings: res.list && res.list.slice(0, 3)
 })
 // 三个排行榜的具体数据
 const changeSrankings = res => ({
@@ -38,6 +46,21 @@ const changeNrankings = res => ({
 const changeOrankings = res => ({
   type: actionType.CHANGE_O_RANKINGS,
   oRankings: res.playlist
+})
+
+const changeCrankings = res => ({
+  type: actionType.CHANGE_C_RANKINGS,
+  cRankings: res.playlist
+})
+
+const changeMusicians = res => ({
+  type: actionType.CHANGE_MUSICIAN,
+  musicians: res.artists
+})
+
+const changeAnchor = res => ({
+  type: actionType.CHANGE_ANCHOR,
+  anchors: res && res.list
 })
 
 // 1.轮播图 数据action
@@ -62,7 +85,7 @@ export const getHotRecommendsAction = (limit) => {
 export const getNewAlbumsAction = (limit) => {
   return dispatch => {
     getNewAlbum(limit).then(res => {
-      dispatch(changeNewAlbums(res))
+      dispatch(changeNewAlbums(res));
     })
   }
 }
@@ -71,8 +94,7 @@ export const getNewAlbumsAction = (limit) => {
 export const getTopRankingsAction = () => {
   return dispatch => {
     getTopRankings().then(res => {
-      dispatch(changeTopRankings(res))
-
+      dispatch(changeTopRankings(res));
     })
   }
 }
@@ -81,7 +103,7 @@ export const getTopRankingsAction = () => {
 export const getTopRankingsTopMusicAction = (id) => {
   return dispatch => {
     getTopRankingMusicList(id).then(res => {
-      dispatch(changeSrankings(res))
+      dispatch(changeSrankings(res));
     })
   }
 }
@@ -89,7 +111,7 @@ export const getTopRankingsTopMusicAction = (id) => {
 export const getTopRankingsNewMusicAction = (id) => {
   return dispatch => {
     getTopRankingMusicList(id).then(res => {
-      dispatch(changeNrankings(res))
+      dispatch(changeNrankings(res));
     })
   }
 }
@@ -97,7 +119,50 @@ export const getTopRankingsNewMusicAction = (id) => {
 export const getTopRankingsOriginMusicAction = (id) => {
   return dispatch => {
     getTopRankingMusicList(id).then(res => {
-      dispatch(changeOrankings(res))
+      dispatch(changeOrankings(res));
+    })
+  }
+}
+
+
+// 6.获取热门推荐中点击后具体音乐
+export const getCoverMusicAction = (id) => {
+  return (dispatch, getState) => {
+    getTopRankingMusicList(id).then(res => {
+      dispatch(changeCrankings(res));
+    }).then(() => {
+      const musicList = getState().getIn(["recommend", "cRankings"]).tracks;
+      musicList.forEach(item => {
+        getSongDetail(item.id).then(res => {
+          const songList = getState().getIn(["player", "songList"]);
+          const song = res.songs && res.songs[0];
+          let newSongsList = [];
+          const flag = songList.some(item => {
+            return item.id === song.id;
+          })
+          if (!flag) newSongsList = [...songList, song];
+          dispatch(changeSongListAction(newSongsList));
+        })
+      })
+
+    })
+  }
+}
+
+// 获取热门歌手
+export const getTopArtistsAction = (limit) => {
+  return dispatch => {
+    getTopArtists(limit).then(res => {
+      dispatch(changeMusicians(res));
+    })
+  }
+}
+
+// 获取热门主播
+export const getHotAnthorsAction = (limit) => {
+  return dispatch => {
+    getHotAnthors(limit).then(res => {
+      dispatch(changeAnchor(res.data));
     })
   }
 }

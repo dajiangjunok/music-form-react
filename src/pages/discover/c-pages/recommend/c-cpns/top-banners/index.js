@@ -11,7 +11,7 @@ import {
   BannerControl,
 } from './style'
 
-export default memo(function TopBanners () {
+export default memo(function YJTopBanners () {
 
   // 组件和redux关联：获取数据和dispatch操作
   const dispatch = useDispatch()
@@ -22,7 +22,7 @@ export default memo(function TopBanners () {
 
   // 其他的Hook
   const carouselRef = useRef()
-  const [bgImage, setbgImage] = useState(state.topBanners[0] ? (state.topBanners[0].imageUrl + '?imageView&blur=40x20') : null)
+  const [bgImage, setbgImage] = useState(state.topBanners && state.topBanners[0] ? (state.topBanners[0].imageUrl + '?imageView&blur=40x20') : null)
 
   useEffect(() => {
     dispatch(getTopBannersAction())
@@ -30,7 +30,7 @@ export default memo(function TopBanners () {
 
 
   function afterChange (from, to) {
-    const bgImageUrl = state.topBanners[to].imageUrl
+    const bgImageUrl = state.topBanner && state.topBanners[to] && state.topBanners[to].imageUrl
 
     setbgImage(bgImageUrl + '?imageView&blur=40x20')
   }
@@ -41,7 +41,7 @@ export default memo(function TopBanners () {
         <BannerLeft>
           <Carousel effect="fade" autoplay={true} ref={carouselRef} beforeChange={afterChange}>
             {
-              state.topBanners.map(item => {
+              state.topBanners && state.topBanners.map(item => {
                 return (
                   <div className="banner-item" key={item.imageUrl}>
                     <img className="image" alt="" src={item.imageUrl}></img>

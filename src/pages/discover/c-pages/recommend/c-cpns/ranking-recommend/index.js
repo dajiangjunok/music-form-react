@@ -24,7 +24,7 @@ export default memo(function YJRanking () {
       <YJThemeHeaderRCM title="榜单" moreLink="/discover/songs/discover/songs" />
       <div className="tops">
         {
-          state.topRankings.map((item, index) => {
+          state.topRankings && state.topRankings.map((item, index) => {
             return <YJTopRanking info={item} key={item.id} />
           })
         }
