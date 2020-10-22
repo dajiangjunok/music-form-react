@@ -8,8 +8,10 @@ import YJDjradio from '../pages/discover/c-pages/djradio';
 import YJArtist from '../pages/discover/c-pages/artist';
 import YJAlbum from '../pages/discover/c-pages/album';
 
-import Mine from '../pages/mine';
+import YJMine from '../pages/mine';
 import YJFriend from '../pages/friend';
+import YJSearch from '../pages/search';
+
 import { Redirect } from 'react-router-dom';
 
 const routes = [
@@ -55,12 +57,16 @@ const routes = [
   },
   {
     path: "/mine",
-    component: Mine
+    component: YJMine
   },
   {
     path: "/friend",
     component: YJFriend
+  }, {
+    path: "/search",
+    component: YJSearch
   }
+
 ];
 
 export default routes;

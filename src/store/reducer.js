@@ -1,10 +1,12 @@
 import { combineReducers } from "redux-immutable";
 import { reducer as recommendReducer } from '../pages/discover/c-pages/recommend/store';
-import { reducer as playerReducer } from '../pages/player/store'
+import { reducer as playerReducer } from '../pages/player/store';
+import { reducer as searchReducer } from '../pages/search/store';
 
 const cmbReducer = combineReducers({
   recommend: recommendReducer,
-  player: playerReducer
+  player: playerReducer,
+  search: searchReducer
 })
 
 export default cmbReducer

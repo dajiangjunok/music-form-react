@@ -1,4 +1,5 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
+import { Redirect } from "react-router-dom";
 
 import { Input, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons'
@@ -12,6 +13,25 @@ import {
 } from './style';
 
 export default memo(function YJAppHeader () {
+  const [searchText, setSearchText] = useState('')
+  const [flag, setflag] = useState(false)
+
+  const searchChange = (e) => {
+    const value = e.currentTarget.value;
+    setSearchText(value)
+  }
+
+  const searchSubmit = () => {
+    setflag(true)
+  }
+
+  // HOOKS
+  useEffect(() => {
+    return () => {
+      setflag(false)
+    }
+  }, [flag])
+
   return (
     <HeaderWrapper>
       <div className="content wrap-v1">
@@ -41,12 +61,16 @@ export default memo(function YJAppHeader () {
           </div>
         </HeaderLeft>
         <HeaderRight >
-          <Input className="search-input" placeholder="音乐/视频/电台/用户" prefix={<SearchOutlined />} />
+          <Input className="search-input" value={searchText} placeholder="音乐/视频/电台/用户" onPressEnter={searchSubmit} prefix={<SearchOutlined />}
+            onChange={e => searchChange(e)} />
           <Button className="search-button" >创作者中心</Button>
           <a href="#/" className="search-login">登录</a>
         </HeaderRight>
       </div>
       <div className="divider"></div>
+      {
+        flag && <Redirect to={{ pathname: "/search", state: { search: searchText } }} />
+      }
     </HeaderWrapper>
   )
 })
