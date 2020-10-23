@@ -22,15 +22,15 @@ export default memo(function YJTopBanners () {
 
   // 其他的Hook
   const carouselRef = useRef()
-  const [bgImage, setbgImage] = useState(state.topBanners && state.topBanners[0] ? (state.topBanners[0].imageUrl + '?imageView&blur=40x20') : null)
+
+  const [bgImage, setbgImage] = useState((state.topBanners && state.topBanners[0]) ? (state.topBanners[0].imageUrl + '?imageView&blur=40x20') : null)
 
   useEffect(() => {
     dispatch(getTopBannersAction())
   }, [dispatch])
 
-
   function afterChange (from, to) {
-    const bgImageUrl = state.topBanner && state.topBanners[to] && state.topBanners[to].imageUrl
+    const bgImageUrl = state.topBanners && (state.topBanners[to] && state.topBanners[to].imageUrl)
 
     setbgImage(bgImageUrl + '?imageView&blur=40x20')
   }

@@ -6,7 +6,9 @@ export const SearchWrapper = styled.div`
     border-left:1px solid #d3d3d3;
     border-right:1px solid #d3d3d3;
     
-
+    .icon-bofang{
+      cursor: pointer;
+    }
 `
 
 export const SearchHeader = styled.div`
