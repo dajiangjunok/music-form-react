@@ -12,7 +12,7 @@ export default memo(function YJNewAlbum () {
 
   const dispatch = useDispatch()
   const state = useSelector(state => ({
-    newAlbums: state.getIn(['recommend', 'newAlbums'])
+    newAlbums: state.recommend.newAlbums
   }), shallowEqual)
 
   //其他hooks

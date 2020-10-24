@@ -25,15 +25,15 @@ export default memo(function YJTopRanking (props) {
     switch (info.ToplistType) {
       case 'S':
         return {
-          rankings: state.getIn(['recommend', 'sRankings'])
+          rankings: state.recommend.sRankings
         }
       case 'N':
         return {
-          rankings: state.getIn(['recommend', 'nRankings'])
+          rankings: state.recommend.nRankings
         }
       case 'O':
         return {
-          rankings: state.getIn(['recommend', 'oRankings'])
+          rankings: state.recommend.oRankings
         }
       default:
         return {

@@ -29,9 +29,22 @@ export default memo(function YJSearchBar () {
     title: "用户"
   }])
 
+  const [currentIndex, setcurrentIndex] = useState(0)
+
+  const tabbarClick = (index) => {
+    setcurrentIndex(index);
+  }
   return (
     <SearchBarWrapper>
-
+      <ul>
+        {
+          titleList.map((item, index) => {
+            return (
+              <li key={item.id} className={"bar-item " + (currentIndex === index ? "active" : "")} onClick={e => tabbarClick(index)}>{item.title}</li>
+            )
+          })
+        }
+      </ul>
     </SearchBarWrapper>
   )
 })

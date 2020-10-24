@@ -21,12 +21,18 @@ export default memo(function YJPlayer () {
   const dispatch = useDispatch();
   const { currentSong, songInfo, songList, showPanel, sequence, songIndex } = useSelector(state => {
     return {
-      currentSong: state.getIn(["player", "currentSong"]),
-      songInfo: state.getIn(["player", "songInfo"]),
-      songList: state.getIn(["player", "songList"]),
-      showPanel: state.getIn(["player", "showPanel"]),
-      sequence: state.getIn(["player", "sequence"]),
-      songIndex: state.getIn(["player", "songIndex"])
+      // currentSong: state.getIn(["player", "currentSong"]),
+      // songInfo: state.getIn(["player", "songInfo"]),
+      // songList: state.getIn(["player", "songList"]),
+      // showPanel: state.getIn(["player", "showPanel"]),
+      // sequence: state.getIn(["player", "sequence"]),
+      // songIndex: state.getIn(["player", "songIndex"])
+      currentSong: state.player.currentSong,
+      songInfo: state.player.songInfo,
+      songList: state.player.songList,
+      showPanel: state.player.showPanel,
+      sequence: state.player.sequence,
+      songIndex: state.player.songIndex
     }
   }, shallowEqual);
   // 渲染数据
@@ -34,6 +40,7 @@ export default memo(function YJPlayer () {
   const picUrl = (currentSong && currentSong.al && currentSong.al.picUrl) || '';
   const musicName = (currentSong && currentSong.name) || '未知音乐';
   const musician = (currentSong && currentSong.ar && currentSong.ar[0].name) || '未知歌手';
+
   const songListNum = songList.length;
 
   // 其他Hooks
@@ -62,11 +69,11 @@ export default memo(function YJPlayer () {
   }, [currentSong])
 
   useEffect(() => {
-    if(Object.keys(currentSong).length === 0 && songList.length!==0 ) {
+    if (Object.keys(currentSong).length === 0 && songList.length !== 0) {
       dispatch(changeCurrentSongAction(songList[0]))
       dispatch(changeLrcAction(songList[0].id))
     }
-  }, [songList,currentSong,dispatch])
+  }, [songList, currentSong, dispatch])
 
   // 其他业务
   const showPopup = () => {
@@ -161,8 +168,8 @@ export default memo(function YJPlayer () {
     }
   }
 
-  const timeEnd = (e)=>{
-    if (sequence === 0 ){
+  const timeEnd = (e) => {
+    if (sequence === 0) {
       if (songIndex !== (songList.length - 1)) {
         const currentSong = songList[songIndex + 1]
         dispatch(changeSongIndexAction(songIndex + 1));
@@ -174,9 +181,9 @@ export default memo(function YJPlayer () {
         dispatch(changeCurrentSongAction(currentSong));
         dispatch(changeLrcAction(currentSong.id));
       }
-    }else if(sequence === 2){
+    } else if (sequence === 2) {
       play()
-    }else if(sequence === 1){
+    } else if (sequence === 1) {
       let index = parseInt(Math.random(0, 1) * (songList.length));
       while (index === songIndex) {
         index = parseInt(Math.random(0, 1) * (songList.length));

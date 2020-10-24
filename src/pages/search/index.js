@@ -3,6 +3,8 @@ import { Input, Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { changeSearchSongsAction } from '../search/store/actioncreators';
+import { formatMinuteSecond } from '../../utils/format-utils'
+import { changeSongDetailAction } from '../player/store/actionCreators';
 
 import { SearchWrapper, SearchHeader, SearchContent } from './style';
 import YJSearchBar from './c-cpn/tabble-bar';
@@ -17,28 +19,37 @@ export default memo(function YJSearch (props) {
   const [data, setdata] = useState([]);
   const [totals, settotals] = useState(0);
 
+  const play = (index) => {
+    const current = searchInfo.songs[index];
+    dispatch(changeSongDetailAction(current.id))
+  }
   const columns = [
     {
       title: 'MusicName',
       dataIndex: 'MusicName',
       key: 'MusicName',
-      render: () => <i className="iconfont icon-bofang"></i>,
-      width: 0
+      render: (text, all, index) => {
+        return <i className="iconfont icon-bofang" onClick={e => play(index)}></i>
+      },
+      width: 50
     },
     {
       title: 'Lrc',
       dataIndex: 'Lrc',
       key: 'Lrc',
+      width: 150
     },
     {
       title: 'AlName',
       dataIndex: 'AlName',
       key: 'AlName',
+      width: 100
     },
     {
       title: 'Duration',
       key: 'Duration',
-      dataIndex: 'Duration'
+      dataIndex: 'Duration',
+      width: 50
     }
   ];
 
@@ -46,7 +57,7 @@ export default memo(function YJSearch (props) {
   // redux hooks
   const dispatch = useDispatch()
   const { searchInfo } = useSelector(state => ({
-    searchInfo: state.getIn(["search", "searchInfo"])
+    searchInfo: state.search.searchInfo
   }))
 
   // other handle
@@ -64,7 +75,6 @@ export default memo(function YJSearch (props) {
 
   useEffect(() => {
     const searchInfoCopy = searchInfo.songs && [...searchInfo.songs]
-    console.log(searchInfoCopy);
     const data = []
     searchInfoCopy && searchInfoCopy.forEach((item, index) => {
       const info = {
@@ -72,7 +82,7 @@ export default memo(function YJSearch (props) {
         MusicName: item.name,
         Lrc: item.artists[0].name,
         AlName: item.album.name,
-        Duration: item.duration
+        Duration: formatMinuteSecond(item.duration)
       }
       data.push(info)
     })
@@ -92,6 +102,7 @@ export default memo(function YJSearch (props) {
       <SearchHeader>
         <Search className="search-input" onSearch={onSearch} onChange={e => onChange(e)} value={searchInput} />
       </SearchHeader>
+      <span>共找到 <i style={{ color: "red" }}>{(searchInfo && searchInfo.songCount) ? searchInfo.songCount : 0}</i> 首单曲</span>
       <SearchContent>
         <YJSearchBar />
         <Table showHeader={false} columns={columns} dataSource={data} pagination={{

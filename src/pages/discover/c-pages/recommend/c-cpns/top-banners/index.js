@@ -17,7 +17,7 @@ export default memo(function YJTopBanners () {
   const dispatch = useDispatch()
   const state = useSelector(state => ({
     // topBanners: state.get('recommend').get('topBanners')
-    topBanners: state.getIn(['recommend', 'topBanners'])
+    topBanners: state.recommend.topBanners
   }), shallowEqual)
 
   // 其他的Hook

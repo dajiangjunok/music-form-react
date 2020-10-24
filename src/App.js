@@ -10,13 +10,18 @@ import YJPlayer from '@/pages/player/app-play-bar'
 import { HashRouter } from 'react-router-dom';
 import store from './store';
 
+// import { persistStore } from 'redux-persist'
+// import { PersistGate } from 'redux-persist/lib/integration/react'
+
 export default memo(function App () {
   return (
     <div>
       <Provider store={store}>
         <HashRouter>
           <YJAppHeader />
+          {/* <PersistGate loading={null} persistor={persistStore(store)}> */}
           {renderRoutes(routes)}
+          {/* </PersistGate> */}
           <YJAppFooter />
           <YJPlayer />
         </HashRouter>

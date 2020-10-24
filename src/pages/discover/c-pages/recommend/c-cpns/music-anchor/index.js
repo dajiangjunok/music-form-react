@@ -10,7 +10,7 @@ export default memo(function YJMusicAnchor () {
   // redux hooks
   const dispatch = useDispatch();
   const { anchors } = useSelector(state => ({
-    anchors: state.getIn(["recommend", "anchors"])
+    anchors: state.recommend.anchors
   }))
 
   useEffect(() => {

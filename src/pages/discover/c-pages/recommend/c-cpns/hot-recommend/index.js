@@ -10,8 +10,8 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 export default memo(function YJHotRecommend () {
   const dispatch = useDispatch()
   const state = useSelector(state => ({
-    hotRecommends: state.getIn(['recommend', 'hotRecommends']),
-    cRankings: state.getIn(['recommend', 'cRankings'])
+    hotRecommends: state.recommend.hotRecommends,
+    cRankings: state.recommend.cRankings
   }), shallowEqual)
 
   useEffect(() => {

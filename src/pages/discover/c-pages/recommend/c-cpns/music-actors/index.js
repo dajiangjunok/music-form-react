@@ -10,7 +10,7 @@ export default memo(function YJMusicActiors () {
   // redux hooks
   const dispatch = useDispatch();
   const { musicians } = useSelector(state => ({
-    musicians: state.getIn(["recommend", "musicians"])
+    musicians: state.recommend.musicians
   }))
 
   useEffect(() => {

@@ -131,10 +131,10 @@ export const getCoverMusicAction = (id) => {
     getTopRankingMusicList(id).then(res => {
       dispatch(changeCrankings(res));
     }).then(() => {
-      const musicList = getState().getIn(["recommend", "cRankings"]).tracks;
+      const musicList = getState().recommend.cRankings.tracks;
       musicList.forEach(item => {
         getSongDetail(item.id).then(res => {
-          const songList = getState().getIn(["player", "songList"]);
+          const songList = getState().player.songList;
           const song = res.songs && res.songs[0];
           let newSongsList = [];
           const flag = songList.some(item => {

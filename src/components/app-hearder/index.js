@@ -2,7 +2,8 @@ import React, { memo, useEffect, useState } from 'react';
 import { Redirect } from "react-router-dom";
 
 import { Input, Button } from 'antd';
-import { SearchOutlined } from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons';
+import { changeSearchSongsAction } from '../../pages/search/store/actioncreators';
 
 import { NavLink } from 'react-router-dom';
 import { headerLinks } from '@/common/local-data';
@@ -11,6 +12,7 @@ import {
   HeaderLeft,
   HeaderRight
 } from './style';
+import { useDispatch } from 'react-redux';
 
 export default memo(function YJAppHeader () {
   const [searchText, setSearchText] = useState('')
@@ -20,8 +22,9 @@ export default memo(function YJAppHeader () {
     const value = e.currentTarget.value;
     setSearchText(value)
   }
-
+  const dispatch = useDispatch();
   const searchSubmit = () => {
+    dispatch(changeSearchSongsAction(searchText, 10, 1))
     setflag(true)
   }
 

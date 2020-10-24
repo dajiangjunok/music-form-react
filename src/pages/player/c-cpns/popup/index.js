@@ -16,9 +16,9 @@ export default memo(function YJPopup (props) {
   // redux hooks
   const { songList, songIndex, lyric } = useSelector(state => {
     return {
-      songList: state.getIn(["player", "songList"]),
-      songIndex: state.getIn(["player", "songIndex"]),
-      lyric: state.getIn(["player", "lyric"]),
+      songList: state.player.songList,
+      songIndex: state.player.songIndex,
+      lyric: state.player.lyric,
     }
   }, shallowEqual);
 

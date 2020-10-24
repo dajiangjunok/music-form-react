@@ -11,7 +11,7 @@ export default memo(function YJRanking () {
   // redux-hooks
   const dispatch = useDispatch()
   const state = useSelector(state => ({
-    topRankings: state.getIn(['recommend', 'topRankings'])
+    topRankings: state.recommend.topRankings
   }), shallowEqual)
 
   // other hooks

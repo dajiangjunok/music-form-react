@@ -29,7 +29,7 @@ export const changeCurrentSongAction = (song) => ({
 const changeSongLyricAction = (lrc) => {
   return {
     type: actionType.CHANGE_SONG_LYRIC,
-    lyric: lrc?lrc.lyric: ''
+    lyric: lrc ? lrc.lyric : ''
   }
 }
 // 改变播放顺序
@@ -44,7 +44,7 @@ const changeSequenceIndexAction = (num) => {
 // 1.获取歌曲详情列表
 export const changeSongDetailAction = (ids) => {
   return (dispatch, getState) => {
-    const songList = getState().getIn(["player", "songList"]);
+    const songList = getState().player.songList;
     const songIndex = songList.findIndex(song => song.id === ids);
     if (songIndex !== -1) { //含有这首歌
       const currentSong = songList[songIndex];
@@ -78,7 +78,7 @@ export const changeSongInfoAction = (id) => {
 // 3.添加歌曲到播放列表【不改变currentSong , songIndex】
 export const addSongListAction = (ids) => {
   return (dispatch, getState) => {
-    const songList = getState().getIn(["player", "songList"]);
+    const songList = getState().player.songList;
     const songIndex = songList.findIndex(song => song.id === ids);
 
     if (songIndex === -1) { //不含有这首歌
