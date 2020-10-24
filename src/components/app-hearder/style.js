@@ -4,6 +4,12 @@ export const HeaderWrapper = styled.div`
   height:75px;
   background-color: #242424;
 
+  .user-input{
+    width:250px;
+  }
+  .password{
+    margin-top:30px;
+  }
   .content{
     display:flex;
     justify-content:space-between;
@@ -80,6 +86,7 @@ export const HeaderLeft = styled.div`
 `
 
 export const HeaderRight = styled.div`
+  position: relative;
   .ant-input-affix-wrapper{
     width: 80%;
     border-radius: 20px;
@@ -117,5 +124,23 @@ export const HeaderRight = styled.div`
     font-size:12px;
     color:#666;
     line-height:12px;
+  }
+
+  .user-login{
+    position:absolute;
+    right:-50px;
+    top:0px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    align-items:center;
+    color:#e0e0e0;
+    cursor: pointer;
+  }
+
+  .hearder-logo{
+    width:30px;
+    width:30px;
+    border-radius:50%;
   }
 `

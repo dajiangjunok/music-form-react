@@ -225,10 +225,12 @@ export default memo(function YJPlayer () {
             </NavLink>
           </div>
           <div className="info">
-            <div className="song">
-              <span className="song-name">{musicName}</span>
-              <span className="singer-name">{musician}</span>
-            </div>
+            {
+              (songInfo[0] && songInfo[0].url) ? (<div className="song">
+                <span className="song-name">{musicName}</span>
+                <span className="singer-name">{musician}</span>
+              </div>) : (<div className="song"> <span className="song-name">暂无版权</span></div>)
+            }
             <div className="progress">
               <Slider tipFormatter={null} value={progress} onChange={sliderChange} onAfterChange={sliderAfterChange} />
               <div className="time">
@@ -253,7 +255,7 @@ export default memo(function YJPlayer () {
           </div>
         </Operator>
       </div>
-      <audio src={songInfo && songInfo[0] && songInfo[0].url}
+      <audio src={(songInfo && songInfo[0]) && songInfo[0].url}
         ref={audioRef} onTimeUpdate={timeUpdate} onEnded={timeEnd} />
       {showPanel && <YJPopup showPopup={showPopup} currentTime={currentTime} />}
     </PlaybarWrapper>

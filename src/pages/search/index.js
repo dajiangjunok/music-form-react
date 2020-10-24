@@ -29,9 +29,14 @@ export default memo(function YJSearch (props) {
       dataIndex: 'MusicName',
       key: 'MusicName',
       render: (text, all, index) => {
-        return <i className="iconfont icon-bofang" onClick={e => play(index)}></i>
+        return (
+          <div className="music-name">
+            <i className="iconfont icon-bofang" onClick={e => play(index)}></i>
+            <span>{text}</span>
+          </div>
+        )
       },
-      width: 50
+      width: 100
     },
     {
       title: 'Lrc',

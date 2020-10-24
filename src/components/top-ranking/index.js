@@ -57,7 +57,7 @@ export default memo(function YJTopRanking (props) {
       default:
         break;
     }
-  }, [dispatch, info])
+  }, [dispatch, info.ToplistType, info.id])
   // other handle
   const playMusic = (e) => {
     dispatch(changeSongDetailAction(e.id))
